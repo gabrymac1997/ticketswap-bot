@@ -94,7 +94,20 @@ async def main():
                     print("Page checked", flush=True)
 
             except Exception as e:
-                print(f"ERROR: {e}", flush=True)
+    print(f"ERROR: {e}", flush=True)
+
+    try:
+        page = await browser.new_page(
+            viewport={"width": 1365, "height": 768},
+            user_agent=(
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/120.0.0.0 Safari/537.36"
+            ),
+        )
+        print("Browser page restarted", flush=True)
+    except Exception as restart_error:
+        print(f"RESTART ERROR: {restart_error}", flush=True)
 
             await asyncio.sleep(random.uniform(2.0, 3.0))
 
