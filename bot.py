@@ -27,27 +27,28 @@ async def main():
             headless=True,
             args=[
                 "--no-sandbox",
+                "--disable-setuid-sandbox",
                 "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--disable-software-rasterizer",
+                "--disable-extensions",
+                "--disable-background-networking",
+                "--disable-background-timer-throttling",
+                "--disable-renderer-backgrounding",
+                "--disable-features=site-per-process",
+                "--single-process",
+                "--no-zygote",
             ],
         )
 
-        browser = await p.chromium.launch(
-    headless=True,
-    args=[
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-        "--disable-gpu",
-        "--disable-software-rasterizer",
-        "--disable-extensions",
-        "--disable-background-networking",
-        "--disable-background-timer-throttling",
-        "--disable-renderer-backgrounding",
-        "--disable-features=site-per-process",
-        "--single-process",
-        "--no-zygote",
-    ],
-)
+        page = await browser.new_page(
+            viewport={"width": 1365, "height": 768},
+            user_agent=(
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/120.0.0.0 Safari/537.36"
+            ),
+        )
 
         while True:
             try:
@@ -80,10 +81,10 @@ async def main():
                     already_found = True
                     print("FOUND!", flush=True)
                     send(
-    "🚨 TICKET DISPONIBILE!\n"
-    "APRIRE IMMEDIATAMENTE:\n"
-    f"{URL}"
-)
+                        "🚨 TICKET DISPONIBILE!\n"
+                        "APRIRE IMMEDIATAMENTE:\n"
+                        f"{URL}"
+                    )
 
                 elif not found:
                     already_found = False
