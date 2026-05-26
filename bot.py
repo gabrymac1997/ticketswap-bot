@@ -70,7 +70,7 @@ async def main():
                 if found and not sold_out and not already_found:
                     already_found = True
                     print("FOUND!", flush=True)
-                    send((
+                    send(
     "🚨 TICKET DISPONIBILE!\n"
     "APRIRE IMMEDIATAMENTE:\n"
     f"{URL}"
