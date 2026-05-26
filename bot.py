@@ -1,7 +1,6 @@
-import asyncio
-import requests
+import time
 import random
-from playwright.async_api import async_playwright
+import requests
 
 URL = "https://www.ticketswap.com/concert-tickets/don-west-amsterdam-paradiso-2026-06-17-CYF7F4cWrLcqofDFpcWRD"
 
@@ -14,62 +13,43 @@ already_found = False
 def send(msg):
     requests.post(
         f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
-        data={
-            "chat_id": CHAT_ID,
-            "text": msg
-        }
+        data={"chat_id": CHAT_ID, "text": msg},
+        timeout=10,
     )
 
 
-async def main():
-    global already_found
+def check():
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
 
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=True
-        )
+    r = requests.get(URL, headers=headers, timeout=20)
+    html = r.text.lower()
 
-        page = await browser.new_page()
+    keywords = [
+        "buy ticket",
+        "get ticket",
+        "available",
+        "koop ticket",
+    ]
 
-        while True:
-            try:
-                print("Checking...", flush=True)
-
-                await page.goto(URL)
-
-                html = await page.content()
-
-                keywords = [
-                    "Buy ticket",
-                    "Get ticket",
-                    "Available",
-                    "Koop ticket"
-                ]
-
-                found = any(
-                    k.lower() in html.lower()
-                    for k in keywords
-                )
-
-                if found and not already_found:
-                    already_found = True
-
-                    send(
-                        f"🎟 TICKET DISPONIBILE!\n\n{URL}"
-                    )
-
-                    print("FOUND!", flush=True)
-
-                elif not found:
-                    already_found = False
-                    print("No tickets", flush=True)
-
-            except Exception as e:
-                print(e, flush=True)
-
-            await asyncio.sleep(
-                random.uniform(2.0, 3.0)
-            )
+    return any(k in html for k in keywords)
 
 
-asyncio.run(main())
+while True:
+    try:
+        print("Checking...", flush=True)
+
+        if check():
+            if not already_found:
+                already_found = True
+                print("FOUND!", flush=True)
+                send(f"🎟 TICKET DISPONIBILE!\n\n{URL}")
+        else:
+            already_found = False
+            print("No tickets", flush=True)
+
+    except Exception as e:
+        print(e, flush=True)
+
+    time.sleep(random.uniform(2.5, 4.0))
