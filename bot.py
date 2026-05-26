@@ -35,8 +35,6 @@ def check():
 
     return any(k in html for k in keywords)
 
-send("🚀 TEST NOTIFICA TELEGRAM")
-
 while True:
     try:
         print("Checking...", flush=True)
