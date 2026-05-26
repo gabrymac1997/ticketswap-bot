@@ -82,7 +82,7 @@ async def main():
             except Exception as e:
                 print(f"ERROR: {e}", flush=True)
 
-            await asyncio.sleep(random.uniform(3.0, 5.0))
+            await asyncio.sleep(random.uniform(2.0, 3.0))
 
 
 asyncio.run(main())
