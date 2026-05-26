@@ -31,20 +31,29 @@ async def main():
             ],
         )
 
-        page = await browser.new_page(
-            viewport={"width": 1365, "height": 768},
-            user_agent=(
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/120.0.0.0 Safari/537.36"
-            ),
-        )
+        browser = await p.chromium.launch(
+    headless=True,
+    args=[
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--disable-software-rasterizer",
+        "--disable-extensions",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-renderer-backgrounding",
+        "--disable-features=site-per-process",
+        "--single-process",
+        "--no-zygote",
+    ],
+)
 
         while True:
             try:
                 print("Checking with browser...", flush=True)
 
-                await page.goto(URL, wait_until="networkidle", timeout=45000)
+                await await page.goto(URL, wait_until="domcontentloaded", timeout=45000)
                 await page.wait_for_timeout(1500)
 
                 text = (await page.locator("body").inner_text()).lower()
