@@ -5,7 +5,7 @@ from playwright.async_api import async_playwright
 
 URL = "https://www.ticketswap.com/concert-tickets/don-west-amsterdam-paradiso-2026-06-17-CYF7F4cWrLcqofDFpcWRD"
 
-BOT_TOKEN = "8738920216:AAG9GwfOgP3XEZ_XmSPkWYfM-4fzeykEBTQ"
+BOT_TOKEN = "8738920216:AAEOzRC44zlGC48kQKNQoSthJNuYPk4NB-U"
 CHAT_ID = "8623302349"
 
 already_found = False
@@ -50,6 +50,8 @@ async def main():
             ),
         )
 
+        send("🚀 BOT ONLINE")
+        
         while True:
             try:
                 print("Checking with browser...", flush=True)
