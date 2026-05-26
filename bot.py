@@ -53,7 +53,7 @@ async def main():
             try:
                 print("Checking with browser...", flush=True)
 
-                await await page.goto(URL, wait_until="domcontentloaded", timeout=45000)
+                await page.goto(URL, wait_until="domcontentloaded", timeout=45000)
                 await page.wait_for_timeout(1500)
 
                 text = (await page.locator("body").inner_text()).lower()
