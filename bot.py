@@ -49,8 +49,6 @@ async def main():
                 "Chrome/120.0.0.0 Safari/537.36"
             ),
         )
-
-        send("🚀 BOT ONLINE")
         
         while True:
             try:
