@@ -51,4 +51,4 @@ while True:
     except Exception as e:
         print(e, flush=True)
 
-    time.sleep(random.uniform(2.5, 4.0))
+    time.sleep(random.uniform(1.5, 2.5))
